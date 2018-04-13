@@ -6,7 +6,8 @@ targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //compileOnly deps.android.runtime
-    //api deps.support.annotations
+    api project(":port-transformer-annotation")
     implementation "com.squareup:javapoet:$javapoet_version"
+    implementation "com.google.auto:auto-common:$auto_common_version"
+    compileOnly "com.google.auto.service:auto-service:$auto_service_version"
 }
