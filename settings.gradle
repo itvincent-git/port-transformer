@@ -1,0 +1,6 @@
+include ':sample',
+        ':port-transformer',
+        ':port-transformer-annotation',
+        ':port-transformer-compiler'
+
+rootProject.name = 'port-transformer-parent'
