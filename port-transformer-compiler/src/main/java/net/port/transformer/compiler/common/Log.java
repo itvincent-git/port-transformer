@@ -24,6 +24,14 @@ public class Log {
         messager.printMessage(Diagnostic.Kind.NOTE, safeFormat(msg, args));
     }
 
+    public void warn(Element element, String msg, Object... args) {
+        messager.printMessage(Diagnostic.Kind.WARNING, safeFormat(msg, args), element);
+    }
+
+    public void warn(String msg, Object... args) {
+        messager.printMessage(Diagnostic.Kind.WARNING, safeFormat(msg, args));
+    }
+
     public void error(Element element, String msg, Object... args) {
         messager.printMessage(Diagnostic.Kind.ERROR, safeFormat(msg, args), element);
     }
