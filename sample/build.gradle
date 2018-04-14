@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion _compileSdkVersion
@@ -27,5 +28,5 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$support_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation project(':port-transformer')
-    annotationProcessor project(':port-transformer-compiler')
+    kapt project(':port-transformer-compiler')
 }
