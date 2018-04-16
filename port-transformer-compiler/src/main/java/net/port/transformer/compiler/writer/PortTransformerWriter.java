@@ -22,6 +22,11 @@ public class PortTransformerWriter extends PortClassWriter{
         TypeSpec.Builder builder = TypeSpec.classBuilder(portTransformerData.implTypeName);
         builder.addModifiers(Modifier.PUBLIC)
                 .superclass(portTransformerData.typeName);
+        addInterfaceMethod(builder);
         return builder;
+    }
+
+    private void addInterfaceMethod(TypeSpec.Builder builder) {
+
     }
 }

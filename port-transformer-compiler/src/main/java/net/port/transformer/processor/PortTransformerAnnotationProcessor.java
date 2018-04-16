@@ -1,16 +1,20 @@
-package net.port.transformer.compiler;
+package net.port.transformer.processor;
 
 
+import net.port.transformer.util.Util;
 import net.port.transformer.compiler.common.CompilerContext;
 import net.port.transformer.compiler.data.PortInterfaceData;
+import net.port.transformer.compiler.data.PortInterfaceMethod;
 import net.port.transformer.compiler.data.PortTransformerData;
 
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
@@ -29,19 +33,18 @@ public class PortTransformerAnnotationProcessor {
     PortTransformerData process() {
         List<? extends Element> allMembers = Util.getAllMembers(compileContext.processingEnvironment, transformerElement);
         compileContext.log.warn("process:");
-        allMembers.stream()
+        List<PortInterfaceMethod> portInterfaceMethodList = allMembers.stream()
                 .filter(
                         (Predicate<Element>) element ->
                                 element.getModifiers().contains(Modifier.ABSTRACT) && element.getKind().equals(ElementKind.METHOD))
-                .map(new Function<Element, PortInterfaceData>() {
-                    @Override
-                    public PortInterfaceData apply(Element element) {
-                        TypeElement interfaceType = Util.toTypeElement(element);
-                        PortInterfaceData data = new PortInterfaceProcessor(compileContext, interfaceType).process();
-                        return data;
-                    }
-                });
-        PortTransformerData portTransformerData = new PortTransformerData(transformerElement);
+                .map((Function<Element, PortInterfaceMethod>) element -> {
+                    ExecutableElement methodElement = Util.asExecutable(element);
+                    TypeElement interfaceType = Util.toTypeElement(methodElement.getReturnType());
+                    PortInterfaceData data = new PortInterfaceProcessor(compileContext, interfaceType).process();
+                    PortInterfaceMethod method = new PortInterfaceMethod(interfaceType, methodElement.getSimpleName().toString(), data);
+                    return method;
+                }).collect(Collectors.toList());
+        PortTransformerData portTransformerData = new PortTransformerData(transformerElement, portInterfaceMethodList);
         return portTransformerData;
     }
 }
