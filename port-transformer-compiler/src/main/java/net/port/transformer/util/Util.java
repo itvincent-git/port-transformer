@@ -13,6 +13,7 @@ import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 
 /**
@@ -45,6 +46,15 @@ public class Util {
      */
     public static TypeElement toTypeElement(TypeMirror typeMirror) {
         return MoreTypes.asTypeElement(typeMirror);
+    }
+
+    /**
+     * Element转化为DeclaredType，包含类型参数
+     * @param element
+     * @return
+     */
+    public static DeclaredType asDeclared(Element element) {
+        return MoreTypes.asDeclared(element.asType());
     }
 
     /**

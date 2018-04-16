@@ -13,7 +13,7 @@ import javax.lang.model.element.TypeElement;
 public class PortTransformerData {
     public ClassName implTypeName;
     public ClassName typeName;
-    List<PortInterfaceMethod> portInterfaceMethodList;
+    public List<PortInterfaceMethod> portInterfaceMethodList;
 
     public PortTransformerData(TypeElement element, List<PortInterfaceMethod> portInterfaceMethodList) {
         typeName = ClassName.get(element);

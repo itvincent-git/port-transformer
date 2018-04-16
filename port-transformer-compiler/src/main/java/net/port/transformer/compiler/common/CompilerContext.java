@@ -7,6 +7,7 @@ import javax.annotation.processing.ProcessingEnvironment;
  */
 public class CompilerContext {
 
+    public static CompilerContext defaultIntance;
     public ProcessingEnvironment processingEnvironment;
     public Log log;
 

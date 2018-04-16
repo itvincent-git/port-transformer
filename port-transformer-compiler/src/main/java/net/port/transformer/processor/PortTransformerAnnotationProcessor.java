@@ -41,7 +41,7 @@ public class PortTransformerAnnotationProcessor {
                     ExecutableElement methodElement = Util.asExecutable(element);
                     TypeElement interfaceType = Util.toTypeElement(methodElement.getReturnType());
                     PortInterfaceData data = new PortInterfaceProcessor(compileContext, interfaceType).process();
-                    PortInterfaceMethod method = new PortInterfaceMethod(interfaceType, methodElement.getSimpleName().toString(), data);
+                    PortInterfaceMethod method = new PortInterfaceMethod(methodElement, methodElement.getSimpleName().toString(), data);
                     return method;
                 }).collect(Collectors.toList());
         PortTransformerData portTransformerData = new PortTransformerData(transformerElement, portInterfaceMethodList);

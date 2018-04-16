@@ -36,6 +36,7 @@ public class PortTransformerProcessor extends BasicAnnotationProcessor {
     @Override
     protected Iterable<? extends ProcessingStep> initSteps() {
         portContext = new CompilerContext(processingEnv);
+        CompilerContext.defaultIntance = portContext;
         return Arrays.asList(new PortProcessingStep(portContext));
     }
 
