@@ -5,5 +5,7 @@ package net.port.transformer;
  */
 public interface PortData<V> {
 
+    void putValue(String key, V value);
+
     V getValue(String key);
 }

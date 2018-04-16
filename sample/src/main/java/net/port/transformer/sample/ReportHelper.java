@@ -13,7 +13,15 @@ public abstract class ReportHelper {
     private static volatile ReportHelper sInstance;
 
     public static ReportHelper getInstance(Context context) {
-        return PortTransformerBuilder.newBuilder(context, ReportHelper.class).build();
+        if (sInstance != null) {
+            return sInstance;
+        } else {
+            synchronized (ReportHelper.class) {
+                if (sInstance == null)
+                    sInstance = PortTransformerBuilder.newBuilder(context, ReportHelper.class).build();
+                return sInstance;
+            }
+        }
     }
 
     abstract SampleReport getSampleReport();

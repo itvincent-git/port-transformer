@@ -1,7 +1,5 @@
 package net.port.transformer.util;
 
-import net.port.transformer.compiler.common.CompilerContext;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +15,6 @@ public class TmpVar {
             throw new IllegalArgumentException("tmp var prefix should start with _");
         if (prefix.startsWith("__"))
             throw new IllegalArgumentException("tmp var prefix cannot use with __");
-        CompilerContext.defaultIntance.log.debug("getTmpVar tmpVarIndices:%s prefix:%s", tmpVarIndices, prefix);
         Integer index = tmpVarIndices.get(prefix);
         if (index == null) index = 0;
         String result = buildTmpVar(prefix, index);
