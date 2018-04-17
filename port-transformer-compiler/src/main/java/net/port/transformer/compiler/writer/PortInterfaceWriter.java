@@ -7,6 +7,7 @@ import com.squareup.javapoet.TypeSpec;
 import net.port.transformer.compiler.data.PortInterfaceData;
 import net.port.transformer.data.DefaultPortData;
 import net.port.transformer.data.PortData;
+import net.port.transformer.processor.PortTransformerProcessor;
 
 import javax.lang.model.element.Modifier;
 
@@ -33,11 +34,13 @@ public class PortInterfaceWriter extends PortClassWriter{
     private void createMethods(TypeSpec.Builder builder) {
         portInterfaceData.methods.stream().forEach(portMethod -> {
             MethodSpec.Builder method = MethodSpec.overriding(portMethod.executableElement);
-            method.addStatement("$T p = new $T()", ClassName.get(PortData.class), ClassName.get(DefaultPortData.class));
+            method.addStatement("$T __p = new $T()", ClassName.get(PortData.class), ClassName.get(DefaultPortData.class));
             portMethod.portMethodParameterList.stream().forEach(portMethodParameter -> {
-
-                method.addStatement("p.putValue($S, $N)", portMethodParameter.parameterKey, portMethodParameter.parameterSpec);
+                method.addStatement("__p.putValue($S, $N)", portMethodParameter.parameterKey, portMethodParameter.parameterSpec);
             });
+            method.addStatement("$T __processor = new $T()",
+                    ClassName.get(PortTransformerProcessor.class), ClassName.get(portMethod.processorTypeMirror));
+            method.addStatement("__processor.doProcess(__p)");
             builder.addMethod(method.build());
         });
     }
