@@ -3,6 +3,8 @@ package net.port.transformer.compiler.data;
 import javax.lang.model.element.Element;
 
 /**
+ * represent the abstract get method like > abstract SampleReport getSampleReport();
+ *
  * Created by zhongyongsheng on 2018/4/14.
  */
 public class PortInterfaceMethod {

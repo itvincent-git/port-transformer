@@ -6,6 +6,7 @@ import net.port.transformer.compiler.common.CompilerContext;
 import net.port.transformer.compiler.common.Log;
 import net.port.transformer.compiler.data.PortInterfaceData;
 import net.port.transformer.compiler.data.PortMethod;
+import net.port.transformer.compiler.data.PortMethodParameter;
 import net.port.transformer.util.Util;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class PortMethodProcessor {
     PortMethodProcessor(CompilerContext context, ExecutableElement element) {
         compileContext = context;
         this.element = element;
-        compileContext.log.warn(element, "PortMethodProcessor %s", element.getSimpleName());
+        //compileContext.log.warn(element, "PortMethodProcessor %s", element.getSimpleName());
     }
 
     PortMethod process() {
@@ -39,9 +40,12 @@ public class PortMethodProcessor {
             compileContext.log.error(element, "cannot find @PortProcessor");
         AnnotationValue processorValue = Util.getAnnotationValue(portProcessorMirror, "processor");
         TypeMirror processorTypeMirror = Util.annotationValueToType(processorValue);
-        compileContext.log.warn(element, "PortMethodProcessor process%s", processorTypeMirror);
+        //compileContext.log.warn(element, "PortMethodProcessor process%s", processorTypeMirror);
 
-        PortMethod portMethod = new PortMethod();
+        //todo PortProcessor
+        List<PortMethodParameter> portMethodParameterList = new PortMethodParameterProcessor(compileContext, element).process();
+
+        PortMethod portMethod = new PortMethod(element, portMethodParameterList);
         return portMethod;
     }
 }

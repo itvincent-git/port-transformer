@@ -1,15 +1,10 @@
 package net.port.transformer.compiler.writer;
 
-import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import net.port.transformer.compiler.data.PortInterfaceData;
-import net.port.transformer.compiler.data.PortInterfaceMethod;
-import net.port.transformer.compiler.data.PortTransformerData;
-import net.port.transformer.util.StringUtil;
-import net.port.transformer.util.TmpVar;
-import net.port.transformer.util.Util;
 
 import javax.lang.model.element.Modifier;
 
@@ -29,15 +24,19 @@ public class PortInterfaceWriter extends PortClassWriter{
         TypeSpec.Builder builder = TypeSpec.classBuilder(portInterfaceData.implTypeName);
         builder.addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(portInterfaceData.typeName);
-        createConstructor(builder);
+        createMethods(builder);
         return builder;
     }
 
-    private void createConstructor(TypeSpec.Builder builder) {
-//        builder.addMethod(MethodSpec.constructorBuilder().addParameter()
-//                .addModifiers(Modifier.PUBLIC)
-//                .addStatement("this.$N = $N", field, param)
-//                .build());
+    private void createMethods(TypeSpec.Builder builder) {
+        portInterfaceData.methods.stream().forEach(portMethod -> {
+            MethodSpec.Builder method = MethodSpec.overriding(portMethod.executableElement);
+            method.addStatement("net.port.transformer.PortData p = new net.port.transformer.DefaultPortData()");
+//            portMethod.portMethodParameterList.stream().forEach(portMethodParameter -> {
+//                ParameterSpec.builder(portMethodParameter.element).build()
+//            });
+            builder.addMethod(method.build());
+        });
     }
 
 }

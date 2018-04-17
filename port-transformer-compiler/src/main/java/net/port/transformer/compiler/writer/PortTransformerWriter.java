@@ -54,7 +54,7 @@ public class PortTransformerWriter extends PortClassWriter{
         methodBuilder.nextControlFlow("else")
                         .beginControlFlow("synchronized(this)")
                                             .beginControlFlow("if ($N == null)", field)
-                                                    .addStatement("$N = new $T(this)", field, portInterfaceMethod.portInterfaceData.implTypeName)
+                                                    .addStatement("$N = new $T()", field, portInterfaceMethod.portInterfaceData.implTypeName)
                                             .endControlFlow()
                                             .addStatement("return $N", field)
                         .endControlFlow()
