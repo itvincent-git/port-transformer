@@ -2,7 +2,6 @@ package net.port.transformer.compiler.writer;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import net.port.transformer.compiler.data.PortInterfaceData;
@@ -35,9 +34,10 @@ public class PortInterfaceWriter extends PortClassWriter{
         portInterfaceData.methods.stream().forEach(portMethod -> {
             MethodSpec.Builder method = MethodSpec.overriding(portMethod.executableElement);
             method.addStatement("$T p = new $T()", ClassName.get(PortData.class), ClassName.get(DefaultPortData.class));
-//            portMethod.portMethodParameterList.stream().forEach(portMethodParameter -> {
-//                ParameterSpec.builder(portMethodParameter.element).build()
-//            });
+            portMethod.portMethodParameterList.stream().forEach(portMethodParameter -> {
+
+                method.addStatement("p.putValue($S, $N)", portMethodParameter.parameterKey, portMethodParameter.parameterSpec);
+            });
             builder.addMethod(method.build());
         });
     }
