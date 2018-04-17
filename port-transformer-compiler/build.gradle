@@ -1,4 +1,5 @@
 apply plugin: 'java-library'
+group = 'com.github.itvincent-git'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
