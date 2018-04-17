@@ -1,4 +1,6 @@
-package net.port.transformer;
+package net.port.transformer.data;
+
+import net.port.transformer.data.PortData;
 
 import java.util.HashMap;
 import java.util.Map;

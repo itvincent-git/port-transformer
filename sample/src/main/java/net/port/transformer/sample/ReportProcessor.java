@@ -2,7 +2,7 @@ package net.port.transformer.sample;
 
 import android.util.Log;
 
-import net.port.transformer.PortData;
+import net.port.transformer.data.PortData;
 import net.port.transformer.PortTransformerProcessor;
 
 /**

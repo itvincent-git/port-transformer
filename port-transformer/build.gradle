@@ -13,6 +13,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api project(':port-transformer-annotation')
+    api project(':port-transformer-common')
     compileOnly "com.android.support:support-annotations:${support_version}"
 }

@@ -6,7 +6,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":port-transformer-annotation")
+    implementation project(':port-transformer-common')
     implementation "com.squareup:javapoet:$javapoet_version"
     implementation "com.google.auto:auto-common:$auto_common_version"
     compileOnly "com.google.auto.service:auto-service:$auto_service_version"
