@@ -21,10 +21,10 @@ dependencies {
 apply plugin: 'com.novoda.bintray-release'//添加
 
 publish {
-    userOrg = 'itvincent126'//bintray.com用户名
-    groupId = 'net.port.transformer'//jcenter上的路径
+    userOrg = "$userOrg"//bintray.com用户名
+    groupId = "$groupId"//jcenter上的路径
     artifactId = 'port-transformer'//项目名称
     publishVersion = "$release_version"//版本号
     desc = 'runtime dependency'//描述，不重要
-    website = 'https://github.com/itvincent-git/port-transformer'//网站，最好有，不重要
+    website = "$url"//网站
 }

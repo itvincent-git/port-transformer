@@ -11,7 +11,12 @@ buildscript {
         auto_common_version = '0.10'
         auto_service_version = '1.0-rc4'
         support_version = '27.1.1'
+
+        // === release ==
         release_version = '0.1.0'
+        userOrg = 'itvincent126'
+        groupId = 'net.port.transformer'
+        url = 'https://github.com/itvincent-git/port-transformer'
     }
     repositories {
         google()
