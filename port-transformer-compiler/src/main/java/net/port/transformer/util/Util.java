@@ -15,6 +15,7 @@ import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.SimpleAnnotationValueVisitor6;
 
 /**
  * Created by zhongyongsheng on 2018/4/14.
@@ -86,5 +87,21 @@ public class Util {
     public static List<? extends Element> getAllMembers(ProcessingEnvironment processingEnvironment, TypeElement element) {
         return processingEnvironment.getElementUtils().getAllMembers(element);
     }
+
+    public static TypeMirror annotationValueToType(AnnotationValue annotationValue) {
+        return TO_TYPE.visit(annotationValue);
+    }
+
+    private static SimpleAnnotationValueVisitor6<TypeMirror, Void> TO_TYPE = new SimpleAnnotationValueVisitor6<TypeMirror, Void>(){
+        @Override
+        public TypeMirror visitType(TypeMirror typeMirror, Void aVoid) {
+            return typeMirror;
+        }
+
+        @Override
+        protected TypeMirror defaultAction(Object o, Void aVoid) {
+            throw new TypeNotPresentException(o.toString(), null);
+        }
+    };
 
 }

@@ -15,11 +15,11 @@ import javax.lang.model.type.DeclaredType;
 public class PortInterfaceData {
     public TypeElement element;
     public DeclaredType declaredType;
-    public List<ExecutableElement> methods;
+    public List<PortMethod> methods;
     public ClassName typeName;
     public ClassName implTypeName;
 
-    public PortInterfaceData(TypeElement element, DeclaredType declaredType, List<ExecutableElement> methods) {
+    public PortInterfaceData(TypeElement element, DeclaredType declaredType, List<PortMethod> methods) {
         this.element = element;
         this.declaredType = declaredType;
         this.methods = methods;

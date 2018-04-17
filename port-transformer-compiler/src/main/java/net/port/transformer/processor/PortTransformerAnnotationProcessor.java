@@ -1,12 +1,15 @@
 package net.port.transformer.processor;
 
 
+import net.port.transformer.compiler.writer.PortInterfaceWriter;
+import net.port.transformer.compiler.writer.PortTransformerWriter;
 import net.port.transformer.util.Util;
 import net.port.transformer.compiler.common.CompilerContext;
 import net.port.transformer.compiler.data.PortInterfaceData;
 import net.port.transformer.compiler.data.PortInterfaceMethod;
 import net.port.transformer.compiler.data.PortTransformerData;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -32,7 +35,6 @@ public class PortTransformerAnnotationProcessor {
 
     PortTransformerData process() {
         List<? extends Element> allMembers = Util.getAllMembers(compileContext.processingEnvironment, transformerElement);
-        compileContext.log.warn("process:");
         List<PortInterfaceMethod> portInterfaceMethodList = allMembers.stream()
                 .filter(
                         (Predicate<Element>) element ->
@@ -45,6 +47,15 @@ public class PortTransformerAnnotationProcessor {
                     return method;
                 }).collect(Collectors.toList());
         PortTransformerData portTransformerData = new PortTransformerData(transformerElement, portInterfaceMethodList);
+
+        portInterfaceMethodList.forEach(portInterfaceMethod -> {
+            try {
+                new PortInterfaceWriter(portInterfaceMethod.portInterfaceData).write(compileContext.processingEnvironment);
+            } catch (IOException e) {
+                compileContext.log.error("PortInterfaceWriter error", e.getMessage());
+            }
+
+        });
         return portTransformerData;
     }
 }
