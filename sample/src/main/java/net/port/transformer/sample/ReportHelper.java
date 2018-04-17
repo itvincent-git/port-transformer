@@ -28,4 +28,6 @@ public abstract class ReportHelper implements Serializable {
     }
 
     abstract SampleReport getSampleReport();
+
+    abstract SampleReport2 getSampleReport2();
 }
