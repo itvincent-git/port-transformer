@@ -22,7 +22,7 @@ dependencies {
 apply plugin: 'com.novoda.bintray-release'//添加
 
 publish {
-    userOrg = "$userOrg"//bintray.com用户名
+    userOrg = "$user_org"//bintray.com用户名
     groupId = "$groupId"//jcenter上的路径
     artifactId = 'port-transformer'//项目名称
     publishVersion = "$release_version"//版本号
