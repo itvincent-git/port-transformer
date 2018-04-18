@@ -11,12 +11,12 @@ import net.port.transformer.annotation.PortProcessor;
 public interface SampleReport {
 
     @PortProcessor(processor = ReportProcessor.class)
-    void report(@PortParameter("eventId") String eventId,
+    void report(@PortParameter("event_id") String eventId,
                 @PortParameter("function_id")String funcId,
                 @PortParameter("act_uid")String uid);
 
     @PortProcessor(processor = ReportProcessor.class)
-    void report2(@PortParameter("eventId") String eventId,
+    void report2(@PortParameter("event_id") String eventId,
                 @PortParameter("function_id")String funcId,
                 @PortParameter("act_uid")String uid,
                 @PortParameter("time")String time);
