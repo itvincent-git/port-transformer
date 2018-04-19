@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
+ * 提供返回PortTransformer实现类的方法
  * Created by zhongyongsheng on 2018/4/13.
  */
 public class PortTransformerBuilder<T> {

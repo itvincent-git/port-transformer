@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 注解在接口方法参数上
  * Created by zhongyongsheng on 2018/4/13.
  */
 @Retention(RetentionPolicy.CLASS)
