@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         send_report.setOnClickListener(object: View.OnClickListener {
             override fun onClick(v: View?) {
                 ReportHelper.getInstance(this@MainActivity)
-                        .sampleReport.report("send", "click", "123");
+                        .sampleReport.report("click", "123");
             }
         })
     }

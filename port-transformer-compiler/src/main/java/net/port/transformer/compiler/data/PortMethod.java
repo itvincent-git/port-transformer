@@ -13,11 +13,13 @@ public class PortMethod {
     public ExecutableElement executableElement;
     public List<PortMethodParameter> portMethodParameterList;
     public TypeMirror processorTypeMirror;
+    public PortPairData portPairData;
 
-    public PortMethod(ExecutableElement executableElement, List<PortMethodParameter> portMethodParameterList, TypeMirror processorTypeMirror) {
+    public PortMethod(ExecutableElement executableElement, List<PortMethodParameter> portMethodParameterList,
+                      TypeMirror processorTypeMirror, PortPairData portPairData) {
         this.executableElement = executableElement;
         this.portMethodParameterList = portMethodParameterList;
         this.processorTypeMirror = processorTypeMirror;
+        this.portPairData = portPairData;
     }
-
 }

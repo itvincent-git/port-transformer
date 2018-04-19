@@ -13,7 +13,7 @@ buildscript {
         support_version = '27.1.1'
 
         // === release ==
-        release_version = '0.2.3'
+        release_version = '0.3.0'
         user_org = 'itvincent126'
         group_id = 'net.port.transformer'
         url = 'https://github.com/itvincent-git/port-transformer'

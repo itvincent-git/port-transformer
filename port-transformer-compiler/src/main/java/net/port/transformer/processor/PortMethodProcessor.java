@@ -4,6 +4,7 @@ import net.port.transformer.annotation.PortProcessor;
 import net.port.transformer.compiler.common.CompilerContext;
 import net.port.transformer.compiler.data.PortMethod;
 import net.port.transformer.compiler.data.PortMethodParameter;
+import net.port.transformer.compiler.data.PortPairData;
 import net.port.transformer.util.Util;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class PortMethodProcessor {
         AnnotationValue processorValue = Util.getAnnotationValue(portProcessorMirror, "processor");
         TypeMirror processorTypeMirror = Util.annotationValueToType(processorValue);
         List<PortMethodParameter> portMethodParameterList = new PortMethodParameterProcessor(compileContext, element).process();
-        PortMethod portMethod = new PortMethod(element, portMethodParameterList, processorTypeMirror);
+        PortPairData portPairData = new PortPairProcessor(compileContext, element).process();
+        PortMethod portMethod = new PortMethod(element, portMethodParameterList, processorTypeMirror, portPairData);
         return portMethod;
     }
 }

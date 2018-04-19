@@ -1,6 +1,8 @@
 package net.port.transformer.sample;
 
 import net.port.transformer.annotation.PortInterface;
+import net.port.transformer.annotation.PortPair;
+import net.port.transformer.annotation.PortPairArray;
 import net.port.transformer.annotation.PortParameter;
 import net.port.transformer.annotation.PortProcessor;
 
@@ -9,15 +11,16 @@ import net.port.transformer.annotation.PortProcessor;
  */
 @PortInterface
 public interface SampleReport {
+    String SAMPLE_EVENT = "SAMPLE_EVENT_ID";
 
     @PortProcessor(processor = ReportProcessor.class)
-    void report(@PortParameter("event_id") String eventId,
-                @PortParameter("function_id")String funcId,
+    @PortPairArray(pairs = {@PortPair(key = "event_id", value = SAMPLE_EVENT), @PortPair(key = "type", value = "new")})
+    void report(@PortParameter("function_id")String funcId,
                 @PortParameter("act_uid")String uid);
 
     @PortProcessor(processor = ReportProcessor.class)
-    void report2(@PortParameter("event_id") String eventId,
-                @PortParameter("function_id")String funcId,
+    @PortPair(key = "event_id", value = SAMPLE_EVENT)
+    void report2(@PortParameter("function_id")String funcId,
                 @PortParameter("act_uid")String uid,
                 @PortParameter("time")String time);
 }
