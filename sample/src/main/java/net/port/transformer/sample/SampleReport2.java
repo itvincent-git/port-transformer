@@ -18,6 +18,6 @@ public interface SampleReport2 {
     @PortProcessor(processor = ReportProcessor.class)
     void report2_2(@PortParameter("event_id") String eventId,
                  @PortParameter("function_id") String funcId,
-                 @PortParameter("act_uid") String uid,
-                 @PortParameter("time") String time);
+                 @PortParameter("act_uid") int uid,
+                 @PortParameter("time") long time);
 }

@@ -15,6 +15,9 @@ class MainActivity : AppCompatActivity() {
             override fun onClick(v: View?) {
                 ReportHelper.getInstance(this@MainActivity)
                         .sampleReport.report("click", "123");
+
+                ReportHelper.getInstance(this@MainActivity)
+                        .sampleReport2.report2_2("click", "123", 123, 456L)
             }
         })
     }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.annotation.processing.ProcessingEnvironment;
 
 /**
+ * 写java基类
  * Created by zhongyongsheng on 2018/4/14.
  */
 public abstract class PortClassWriter {

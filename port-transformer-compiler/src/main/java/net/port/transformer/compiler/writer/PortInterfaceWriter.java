@@ -36,8 +36,15 @@ public class PortInterfaceWriter extends PortClassWriter{
             MethodSpec.Builder method = MethodSpec.overriding(portMethod.executableElement);
             method.addStatement("$T __p = new $T()", ClassName.get(PortData.class), ClassName.get(DefaultPortData.class));
             //可变参数
-            portMethod.portMethodParameterList.stream().forEach(portMethodParameter ->
-                    method.addStatement("__p.putValue($S, $N)", portMethodParameter.parameterKey, portMethodParameter.parameterSpec));
+            portMethod.portMethodParameterList.stream().forEach(portMethodParameter -> {
+
+                if (portMethodParameter.isStringParameterType()) {
+                    method.addStatement("__p.putValue($S, $N)", portMethodParameter.parameterKey, portMethodParameter.parameterSpec);
+                } else {
+                    method.addStatement("__p.putValue($S, $T.valueOf($N))", portMethodParameter.parameterKey, ClassName.get(String.class), portMethodParameter.parameterSpec);
+                }
+
+            });
             //固定参数
             portMethod.portPairData.pairDataList.stream().forEach(pairData ->
                     method.addStatement("__p.putValue($L, $L)", pairData.key, pairData.value));
