@@ -67,6 +67,7 @@ public class PortTransformerProcessor extends BasicAnnotationProcessor {
             Stream<PortTransformerData> portTransformerDataStream = portTransformerSet.stream().map(new Function<Element, PortTransformerData>() {
                 @Override
                 public PortTransformerData apply(Element element) {
+                    compilerContext.log.debug("PortTransformer process %s", element);
                     return new PortTransformerAnnotationProcessor(compilerContext, Util.toTypeElement(element)).process();
                 }
             });

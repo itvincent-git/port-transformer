@@ -32,7 +32,6 @@ public class PortMethodParameterProcessor {
         return parameters.stream().map(o -> {
             PortParameter portParameter = o.getAnnotation(PortParameter.class);
             String value = portParameter.value();
-            compileContext.log.debug("parameter simple name %s", TypeName.get(o.asType()).toString());
             return new PortMethodParameter(o, value);
         }).collect(Collectors.toList());
     }
