@@ -12,6 +12,7 @@ import net.port.transformer.processor.PortTransformerProcessor;
 import javax.lang.model.element.Modifier;
 
 /**
+ * 生成SampleReport_Impl
  * Created by zhongyongsheng on 2018/4/14.
  */
 public class PortInterfaceWriter extends PortClassWriter{
