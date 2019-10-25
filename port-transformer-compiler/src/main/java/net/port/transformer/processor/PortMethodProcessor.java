@@ -27,6 +27,10 @@ public class PortMethodProcessor {
         this.element = element;
     }
 
+    /**
+     * 解析某个method的参数
+     * @return
+     */
     PortMethod process() {
         AnnotationMirror portProcessorMirror = Util.getAnnotationMirror(element, PortProcessor.class);
         if (portProcessorMirror == null)

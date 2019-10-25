@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.lang.model.element.TypeElement;
 
 /**
+ * 保存接口及其方法的Data
  * Created by zhongyongsheng on 2018/4/14.
  */
 public class PortTransformerData {

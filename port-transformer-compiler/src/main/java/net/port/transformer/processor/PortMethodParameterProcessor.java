@@ -1,7 +1,5 @@
 package net.port.transformer.processor;
 
-import com.squareup.javapoet.TypeName;
-
 import net.port.transformer.annotation.PortParameter;
 import net.port.transformer.compiler.common.CompilerContext;
 import net.port.transformer.compiler.data.PortMethodParameter;
@@ -26,6 +24,10 @@ public class PortMethodParameterProcessor {
         this.element = element;
     }
 
+    /**
+     * 解析某个方法中其中一个参数的属性
+     * @return
+     */
     List<PortMethodParameter> process() {
 
         List<? extends VariableElement> parameters = element.getParameters();

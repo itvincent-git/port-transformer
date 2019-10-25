@@ -33,6 +33,13 @@ public class PortTransformerAnnotationProcessor {
         transformerElement = element;
     }
 
+    /**
+     * 解析接口对象及其接口的所有属性
+     * @PortInterface
+     * public interface SampleReport
+     *
+     * @return
+     */
     PortTransformerData process() {
         List<? extends Element> allMembers = Util.getAllMembers(compileContext.processingEnvironment, transformerElement);
         List<PortInterfaceMethod> portInterfaceMethodList = allMembers.stream()
@@ -40,6 +47,10 @@ public class PortTransformerAnnotationProcessor {
                         (Predicate<Element>) element ->
                                 element.getModifiers().contains(Modifier.ABSTRACT) && element.getKind().equals(ElementKind.METHOD))
                 .map((Function<Element, PortInterfaceMethod>) element -> {
+                    /**
+                     * 解析方法的属性
+                     * void report(@PortParameter("function_id")String funcId, @PortParameter("act_uid")String uid)
+                     */
                     ExecutableElement methodElement = Util.asExecutable(element);
                     TypeElement interfaceType = Util.toTypeElement(methodElement.getReturnType());
                     PortInterfaceData data = new PortInterfaceProcessor(compileContext, interfaceType).process();
