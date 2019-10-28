@@ -11,13 +11,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        send_report.setOnClickListener(object: View.OnClickListener {
+        send_report.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
                 ReportHelper.getInstance(this@MainActivity)
-                        .sampleReport.report("click", "123");
+                    .sampleReport.report("click", "123")
 
                 ReportHelper.getInstance(this@MainActivity)
-                        .sampleReport2.report2_2("click", "123", 123, 456L)
+                    .sampleReport2.report2_2("click", "123", 123, 4566666666666666666L)
+
+                ReportHelper.getInstance(this@MainActivity)
+                    .sampleReport2.reportObject("click", "report_object", 100, 28888377777888L)
             }
         })
     }

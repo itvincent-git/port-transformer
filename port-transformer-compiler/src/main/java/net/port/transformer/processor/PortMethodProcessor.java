@@ -29,17 +29,21 @@ public class PortMethodProcessor {
 
     /**
      * 解析某个method的参数
+     *
      * @return
      */
     PortMethod process() {
         AnnotationMirror portProcessorMirror = Util.getAnnotationMirror(element, PortProcessor.class);
-        if (portProcessorMirror == null)
+        if (portProcessorMirror == null) {
             compileContext.log.error(element, "cannot find @PortProcessor");
+        }
         AnnotationValue processorValue = Util.getAnnotationValue(portProcessorMirror, "processor");
         TypeMirror processorTypeMirror = Util.annotationValueToType(processorValue);
-        List<PortMethodParameter> portMethodParameterList = new PortMethodParameterProcessor(compileContext, element).process();
+        List<PortMethodParameter> portMethodParameterList =
+                new PortMethodParameterProcessor(compileContext, element).process();
         PortPairData portPairData = new PortPairProcessor(compileContext, element).process();
-        PortMethod portMethod = new PortMethod(element, portMethodParameterList, processorTypeMirror, portPairData);
+        PortMethod portMethod = new PortMethod(compileContext, element, portMethodParameterList, processorTypeMirror,
+                portPairData);
         return portMethod;
     }
 }

@@ -5,8 +5,6 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import net.port.transformer.compiler.data.PortInterfaceData;
-import net.port.transformer.data.DefaultPortData;
-import net.port.transformer.data.PortData;
 import net.port.transformer.processor.PortTransformerProcessor;
 
 import javax.lang.model.element.Modifier;
@@ -15,7 +13,7 @@ import javax.lang.model.element.Modifier;
  * 生成SampleReport_Impl
  * Created by zhongyongsheng on 2018/4/14.
  */
-public class PortInterfaceWriter extends PortClassWriter{
+public class PortInterfaceWriter extends PortClassWriter {
     PortInterfaceData portInterfaceData;
 
     public PortInterfaceWriter(PortInterfaceData portInterfaceData) {
@@ -35,14 +33,17 @@ public class PortInterfaceWriter extends PortClassWriter{
     private void createMethods(TypeSpec.Builder builder) {
         portInterfaceData.methods.stream().forEach(portMethod -> {
             MethodSpec.Builder method = MethodSpec.overriding(portMethod.executableElement);
-            method.addStatement("$T __p = new $T()", ClassName.get(PortData.class), ClassName.get(DefaultPortData.class));
+            method.addStatement("$T __p = new $T()", portMethod.processorPortDataType,
+                    portMethod.processorPortDataType);
             //可变参数
             portMethod.portMethodParameterList.stream().forEach(portMethodParameter -> {
 
-                if (portMethodParameter.isStringParameterType()) {
-                    method.addStatement("__p.putValue($S, $N)", portMethodParameter.parameterKey, portMethodParameter.parameterSpec);
+                if (!portMethodParameter.isStringParameterType() && portMethod.isStringPortData) {
+                    method.addStatement("__p.putValue($S, $T.valueOf($N))", portMethodParameter.parameterKey,
+                            ClassName.get(String.class), portMethodParameter.parameterSpec);
                 } else {
-                    method.addStatement("__p.putValue($S, $T.valueOf($N))", portMethodParameter.parameterKey, ClassName.get(String.class), portMethodParameter.parameterSpec);
+                    method.addStatement("__p.putValue($S, $N)", portMethodParameter.parameterKey,
+                            portMethodParameter.parameterSpec);
                 }
 
             });
@@ -50,7 +51,7 @@ public class PortInterfaceWriter extends PortClassWriter{
             portMethod.portPairData.pairDataList.stream().forEach(pairData ->
                     method.addStatement("__p.putValue($L, $L)", pairData.key, pairData.value));
             method.addStatement("$T __processor = new $T()",
-                    ClassName.get(PortTransformerProcessor.class), ClassName.get(portMethod.processorTypeMirror));
+                    ClassName.get(PortTransformerProcessor.class), portMethod.processorTypeName);
             method.addStatement("__processor.doProcess(__p)");
             builder.addMethod(method.build());
         });

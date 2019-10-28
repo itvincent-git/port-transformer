@@ -24,6 +24,7 @@ public class Util {
 
     /**
      * Element转化为TypeElement，包含类的名称，实现的接口，父类等
+     *
      * @param element
      * @return
      */
@@ -33,6 +34,7 @@ public class Util {
 
     /**
      * 转化为可执行方法的Element，包含方法的参数、返回值
+     *
      * @param element
      * @return
      */
@@ -42,6 +44,7 @@ public class Util {
 
     /**
      * TypeMirror转化为TypeElement，包含类的名称，实现的接口，父类等
+     *
      * @param typeMirror
      * @return
      */
@@ -51,6 +54,7 @@ public class Util {
 
     /**
      * Element转化为DeclaredType，包含类型参数
+     *
      * @param element
      * @return
      */
@@ -59,7 +63,18 @@ public class Util {
     }
 
     /**
+     * typeMirror转化为DeclaredType，包含类型参数
+     *
+     * @param typeMirror
+     * @return
+     */
+    public static DeclaredType asDeclared(TypeMirror typeMirror) {
+        return MoreTypes.asDeclared(typeMirror);
+    }
+
+    /**
      * AnnotationMirror 包含注解的类型，注解元素的值
+     *
      * @param element
      * @param annotationClass
      * @return
@@ -70,6 +85,7 @@ public class Util {
 
     /**
      * 根据元素名称返回注解的元素的值
+     *
      * @param annotationMirror
      * @param name
      * @return
@@ -80,11 +96,13 @@ public class Util {
 
     /**
      * 返回所有成员变量及方法
+     *
      * @param processingEnvironment
      * @param element
      * @return
      */
-    public static List<? extends Element> getAllMembers(ProcessingEnvironment processingEnvironment, TypeElement element) {
+    public static List<? extends Element> getAllMembers(ProcessingEnvironment processingEnvironment,
+                                                        TypeElement element) {
         return processingEnvironment.getElementUtils().getAllMembers(element);
     }
 
@@ -92,16 +110,28 @@ public class Util {
         return TO_TYPE.visit(annotationValue);
     }
 
-    private static SimpleAnnotationValueVisitor6<TypeMirror, Void> TO_TYPE = new SimpleAnnotationValueVisitor6<TypeMirror, Void>(){
-        @Override
-        public TypeMirror visitType(TypeMirror typeMirror, Void aVoid) {
-            return typeMirror;
-        }
+    // public static TypeElement getTypeParameterElementOfInterface(TypeElement typeElement, int indexOfTypeParameter) {
+    //     compileContext.log.debug("processorTypeName %s", processorTypeName.getInterfaces());
+    //     List<? extends TypeParameterElement> typeParameters = processorTypeName.getTypeParameters();
+    //     compileContext.log.debug("typeParameters size:%d", typeParameters.size());
+    //     if (typeParameters != null && typeParameters.size() > 1) {
+    //         TypeParameterElement typeParameterElement = typeParameters.get(1);
+    //         compileContext.log.debug("typeParameters get(1) %s", typeParameterElement);
+    //         processorPortDataType = Util.toTypeElement(typeParameterElement);
+    //     }
+    // }
 
-        @Override
-        protected TypeMirror defaultAction(Object o, Void aVoid) {
-            throw new TypeNotPresentException(o.toString(), null);
-        }
-    };
+    private static SimpleAnnotationValueVisitor6<TypeMirror, Void> TO_TYPE =
+            new SimpleAnnotationValueVisitor6<TypeMirror, Void>() {
+                @Override
+                public TypeMirror visitType(TypeMirror typeMirror, Void aVoid) {
+                    return typeMirror;
+                }
+
+                @Override
+                protected TypeMirror defaultAction(Object o, Void aVoid) {
+                    throw new TypeNotPresentException(o.toString(), null);
+                }
+            };
 
 }

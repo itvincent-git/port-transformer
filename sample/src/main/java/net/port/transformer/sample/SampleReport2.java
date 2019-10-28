@@ -20,4 +20,10 @@ public interface SampleReport2 {
                  @PortParameter("function_id") String funcId,
                  @PortParameter("act_uid") int uid,
                  @PortParameter("time") long time);
+
+    @PortProcessor(processor = ReportObjectProcessor.class)
+    void reportObject(@PortParameter("event_id") String eventId,
+                   @PortParameter("function_id") String funcId,
+                   @PortParameter("act_uid") int uid,
+                   @PortParameter("time") long time);
 }
