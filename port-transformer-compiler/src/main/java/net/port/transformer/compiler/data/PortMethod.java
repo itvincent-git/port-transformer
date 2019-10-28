@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 
 /**
@@ -15,9 +14,16 @@ import javax.lang.model.type.TypeMirror;
  * Created by zhongyongsheng on 2018/4/16.
  */
 public class PortMethod {
+    private static final String STRING_PORT_DATA_NAME = "net.port.transformer.data.StringPortData";
     public ExecutableElement executableElement;
     public List<PortMethodParameter> portMethodParameterList;
+    /**
+     * processor的类型
+     */
     public TypeElement processorTypeName;
+    /**
+     * PortData的子类类型
+     */
     public TypeElement processorPortDataType;
     /**
      * processor是否StringPortData
@@ -33,20 +39,9 @@ public class PortMethod {
         this.portMethodParameterList = portMethodParameterList;
         this.portPairData = portPairData;
         this.processorTypeName = Util.toTypeElement(processorTypeMirror);
-        TypeMirror typeMirror = processorTypeName.getInterfaces().get(0);
-        compileContext.log.debug("processorTypeName %s", typeMirror);
-        DeclaredType declaredType = Util.asDeclared(typeMirror);
-        compileContext.log.debug("typeElement %s", declaredType);
-        List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
-        compileContext.log.debug("typeParameters size:%d", typeArguments.size());
-        if (typeArguments != null && typeArguments.size() > 1) {
-            TypeMirror mirror = typeArguments.get(1);
-            processorPortDataType = Util.toTypeElement(mirror);
-            compileContext.log.debug("typeParameters get(1) %s", processorPortDataType.getQualifiedName());
-            this.isStringPortData =
-                    this.processorPortDataType.getQualifiedName()
-                            .contentEquals("net.port.transformer.data.StringPortData");
-            compileContext.log.debug("isStringPortData %b", isStringPortData);
-        }
+        processorPortDataType = Util.getTypeParameterElementOfInterface(processorTypeName, 0, 1);
+        //todo 判断是不是PortData类型
+        this.isStringPortData = this.processorPortDataType.getQualifiedName().contentEquals(STRING_PORT_DATA_NAME);
+        compileContext.log.debug("isStringPortData %b", isStringPortData);
     }
 }

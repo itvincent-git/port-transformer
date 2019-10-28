@@ -5,7 +5,6 @@ import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import net.port.transformer.compiler.data.PortInterfaceData;
-import net.port.transformer.processor.PortTransformerProcessor;
 
 import javax.lang.model.element.Modifier;
 
@@ -51,7 +50,7 @@ public class PortInterfaceWriter extends PortClassWriter {
             portMethod.portPairData.pairDataList.stream().forEach(pairData ->
                     method.addStatement("__p.putValue($L, $L)", pairData.key, pairData.value));
             method.addStatement("$T __processor = new $T()",
-                    ClassName.get(PortTransformerProcessor.class), portMethod.processorTypeName);
+                    portMethod.processorTypeName, portMethod.processorTypeName);
             method.addStatement("__processor.doProcess(__p)");
             builder.addMethod(method.build());
         });

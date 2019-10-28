@@ -10,13 +10,12 @@ import net.port.transformer.processor.PortTransformerProcessor;
  * Created by zhongyongsheng on 2018/4/16.
  */
 public class ReportObjectProcessor implements PortTransformerProcessor<Void, DefaultPortData<Object>> {
-    private static final String TAG = "ReportProcessor";
+    private static final String TAG = "ReportObjectProcessor";
 
     @Override
     public Void doProcess(DefaultPortData<Object> para) {
-        Log.d(TAG, "doProcess " + para);
         for (String key : para.keySet()) {
-            Log.d(TAG, "doProcess: key:" + key);
+            Log.d(TAG, "doProcess: key:" + key + ", value:" +para.getValue(key));
         }
         return null;
     }

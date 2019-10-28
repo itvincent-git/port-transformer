@@ -7,6 +7,7 @@ import com.google.auto.common.MoreTypes;
 import java.lang.annotation.Annotation;
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
@@ -110,16 +111,22 @@ public class Util {
         return TO_TYPE.visit(annotationValue);
     }
 
-    // public static TypeElement getTypeParameterElementOfInterface(TypeElement typeElement, int indexOfTypeParameter) {
-    //     compileContext.log.debug("processorTypeName %s", processorTypeName.getInterfaces());
-    //     List<? extends TypeParameterElement> typeParameters = processorTypeName.getTypeParameters();
-    //     compileContext.log.debug("typeParameters size:%d", typeParameters.size());
-    //     if (typeParameters != null && typeParameters.size() > 1) {
-    //         TypeParameterElement typeParameterElement = typeParameters.get(1);
-    //         compileContext.log.debug("typeParameters get(1) %s", typeParameterElement);
-    //         processorPortDataType = Util.toTypeElement(typeParameterElement);
-    //     }
-    // }
+    @Nullable
+    public static TypeElement getTypeParameterElementOfInterface(TypeElement typeElement,
+                                                                 int indexOfInterface,
+                                                                 int indexOfTypeParameter) {
+        List<? extends TypeMirror> interfaces = typeElement.getInterfaces();
+        if (interfaces != null && interfaces.size() > indexOfInterface) {
+            TypeMirror typeMirror = interfaces.get(indexOfInterface);
+            DeclaredType declaredType = Util.asDeclared(typeMirror);
+            List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
+            if (typeArguments != null && typeArguments.size() > indexOfTypeParameter) {
+                TypeMirror mirror = typeArguments.get(indexOfTypeParameter);
+                return Util.toTypeElement(mirror);
+            }
+        }
+        return null;
+    }
 
     private static SimpleAnnotationValueVisitor6<TypeMirror, Void> TO_TYPE =
             new SimpleAnnotationValueVisitor6<TypeMirror, Void>() {
