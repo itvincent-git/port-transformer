@@ -32,8 +32,8 @@ public class PortInterfaceWriter extends PortClassWriter {
     private void createMethods(TypeSpec.Builder builder) {
         portInterfaceData.methods.stream().forEach(portMethod -> {
             MethodSpec.Builder method = MethodSpec.overriding(portMethod.executableElement);
-            method.addStatement("$T __p = new $T()", portMethod.processorPortDataType,
-                    portMethod.processorPortDataType);
+            method.addStatement("$T __p = new $T()", portMethod.processorPortDataDeclareType,
+                    portMethod.processorPortDataDeclareType);
             //可变参数
             portMethod.portMethodParameterList.stream().forEach(portMethodParameter -> {
 

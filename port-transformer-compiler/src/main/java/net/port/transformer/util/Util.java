@@ -112,7 +112,7 @@ public class Util {
     }
 
     @Nullable
-    public static TypeElement getTypeParameterElementOfInterface(TypeElement typeElement,
+    public static TypeMirror getTypeParameterMirrorOfInterface(TypeElement typeElement,
                                                                  int indexOfInterface,
                                                                  int indexOfTypeParameter) {
         List<? extends TypeMirror> interfaces = typeElement.getInterfaces();
@@ -121,8 +121,7 @@ public class Util {
             DeclaredType declaredType = Util.asDeclared(typeMirror);
             List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
             if (typeArguments != null && typeArguments.size() > indexOfTypeParameter) {
-                TypeMirror mirror = typeArguments.get(indexOfTypeParameter);
-                return Util.toTypeElement(mirror);
+                return typeArguments.get(indexOfTypeParameter);
             }
         }
         return null;

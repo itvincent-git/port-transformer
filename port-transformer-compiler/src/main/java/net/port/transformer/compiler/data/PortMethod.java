@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.DeclaredType;
 import javax.lang.model.type.TypeMirror;
 
 /**
@@ -22,9 +23,9 @@ public class PortMethod {
      */
     public TypeElement processorTypeName;
     /**
-     * PortData的子类类型
+     * PortData的DeclaredType类型
      */
-    public TypeElement processorPortDataType;
+    public DeclaredType processorPortDataDeclareType;
     /**
      * processor是否StringPortData
      * 如果true，则表示需要将传入的各种参数类型会转换为String
@@ -39,9 +40,12 @@ public class PortMethod {
         this.portMethodParameterList = portMethodParameterList;
         this.portPairData = portPairData;
         this.processorTypeName = Util.toTypeElement(processorTypeMirror);
-        processorPortDataType = Util.getTypeParameterElementOfInterface(processorTypeName, 0, 1);
+        TypeMirror typeParameterMirrorOfInterface = Util.getTypeParameterMirrorOfInterface(processorTypeName, 0, 1);
+        this.processorPortDataDeclareType = Util.asDeclared(typeParameterMirrorOfInterface);
         //todo 判断是不是PortData类型
-        this.isStringPortData = this.processorPortDataType.getQualifiedName().contentEquals(STRING_PORT_DATA_NAME);
+        this.isStringPortData =
+                Util.toTypeElement(typeParameterMirrorOfInterface).getQualifiedName()
+                        .contentEquals(STRING_PORT_DATA_NAME);
         compileContext.log.debug("isStringPortData %b", isStringPortData);
     }
 }
