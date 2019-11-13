@@ -46,6 +46,5 @@ public class PortMethod {
         this.isStringPortData =
                 Util.toTypeElement(typeParameterMirrorOfInterface).getQualifiedName()
                         .contentEquals(STRING_PORT_DATA_NAME);
-        compileContext.log.debug("isStringPortData %b", isStringPortData);
     }
 }
