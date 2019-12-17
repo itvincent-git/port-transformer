@@ -33,9 +33,12 @@ import javax.lang.model.element.Element;
 @AutoService(Processor.class)
 public class PortTransformerProcessor extends BasicAnnotationProcessor {
     CompilerContext portContext;
+
     @Override
     protected Iterable<? extends ProcessingStep> initSteps() {
         portContext = new CompilerContext(processingEnv);
+        portContext.log.debug("PortTransformer options %s",
+                portContext.processingEnvironment.getOptions());
         CompilerContext.defaultIntance = portContext;
         return Arrays.asList(new PortProcessingStep(portContext));
     }
@@ -62,21 +65,25 @@ public class PortTransformerProcessor extends BasicAnnotationProcessor {
         }
 
         @Override
-        public Set<? extends Element> process(SetMultimap<Class<? extends Annotation>, Element> elementsByAnnotation) {
+        public Set<? extends Element> process(
+                SetMultimap<Class<? extends Annotation>, Element> elementsByAnnotation) {
+
             Set<Element> portTransformerSet = elementsByAnnotation.get(PortTransformer.class);
-            Stream<PortTransformerData> portTransformerDataStream = portTransformerSet.stream().map(new Function<Element, PortTransformerData>() {
-                @Override
-                public PortTransformerData apply(Element element) {
-                    compilerContext.log.debug("PortTransformer process %s", element);
-                    return new PortTransformerAnnotationProcessor(compilerContext, Util.toTypeElement(element)).process();
-                }
-            });
+            Stream<PortTransformerData> portTransformerDataStream =
+                    portTransformerSet.stream().map(new Function<Element, PortTransformerData>() {
+                        @Override
+                        public PortTransformerData apply(Element element) {
+                            compilerContext.log.debug("PortTransformer process %s", element);
+                            return new PortTransformerAnnotationProcessor(compilerContext,
+                                    Util.toTypeElement(element)).process();
+                        }
+                    });
 
             portTransformerDataStream.forEach(new Consumer<PortTransformerData>() {
                 @Override
                 public void accept(PortTransformerData portTransformerData) {
                     try {
-                        new PortTransformerWriter(portTransformerData).write(processingEnv);
+                        new PortTransformerWriter(portTransformerData).write(compilerContext);
                     } catch (IOException e) {
                         portContext.log.error("PortTransformerWriter error", e.getMessage());
                     }

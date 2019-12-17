@@ -4,9 +4,9 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 
-import java.io.IOException;
+import net.port.transformer.compiler.common.CompilerContext;
 
-import javax.annotation.processing.ProcessingEnvironment;
+import java.io.IOException;
 
 /**
  * 写java基类
@@ -14,17 +14,19 @@ import javax.annotation.processing.ProcessingEnvironment;
  */
 public abstract class PortClassWriter {
     ClassName className;
+    CompilerContext compilerContext;
 
     public PortClassWriter(ClassName className) {
         this.className = className;
     }
 
-    public void write(ProcessingEnvironment processingEnvironment) throws IOException {
+    public void write(CompilerContext compilerContext) throws IOException {
+        this.compilerContext = compilerContext;
         TypeSpec.Builder typeSpecBuilder = createTypeSpecBuilder();
         JavaFile.builder(className.packageName(),
                 typeSpecBuilder.build())
                 .build()
-                .writeTo(processingEnvironment.getFiler());
+                .writeTo(compilerContext.processingEnvironment.getFiler());
     }
 
     protected abstract TypeSpec.Builder createTypeSpecBuilder();

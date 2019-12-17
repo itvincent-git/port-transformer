@@ -1,13 +1,11 @@
 package net.port.transformer.processor;
 
-
-import net.port.transformer.compiler.writer.PortInterfaceWriter;
-import net.port.transformer.compiler.writer.PortTransformerWriter;
-import net.port.transformer.util.Util;
 import net.port.transformer.compiler.common.CompilerContext;
 import net.port.transformer.compiler.data.PortInterfaceData;
 import net.port.transformer.compiler.data.PortInterfaceMethod;
 import net.port.transformer.compiler.data.PortTransformerData;
+import net.port.transformer.compiler.writer.PortInterfaceWriter;
+import net.port.transformer.util.Util;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,17 +33,18 @@ public class PortTransformerAnnotationProcessor {
 
     /**
      * 解析接口对象及其接口的所有属性
-     * @PortInterface
-     * public interface SampleReport
      *
      * @return
+     * @PortInterface public interface SampleReport
      */
     PortTransformerData process() {
-        List<? extends Element> allMembers = Util.getAllMembers(compileContext.processingEnvironment, transformerElement);
+        List<? extends Element> allMembers =
+                Util.getAllMembers(compileContext.processingEnvironment, transformerElement);
         List<PortInterfaceMethod> portInterfaceMethodList = allMembers.stream()
                 .filter(
                         (Predicate<Element>) element ->
-                                element.getModifiers().contains(Modifier.ABSTRACT) && element.getKind().equals(ElementKind.METHOD))
+                                element.getModifiers().contains(Modifier.ABSTRACT) &&
+                                        element.getKind().equals(ElementKind.METHOD))
                 .map((Function<Element, PortInterfaceMethod>) element -> {
                     /**
                      * 解析方法的属性
@@ -53,15 +52,19 @@ public class PortTransformerAnnotationProcessor {
                      */
                     ExecutableElement methodElement = Util.asExecutable(element);
                     TypeElement interfaceType = Util.toTypeElement(methodElement.getReturnType());
-                    PortInterfaceData data = new PortInterfaceProcessor(compileContext, interfaceType).process();
-                    PortInterfaceMethod method = new PortInterfaceMethod(methodElement, methodElement.getSimpleName().toString(), data);
+                    PortInterfaceData data =
+                            new PortInterfaceProcessor(compileContext, interfaceType).process();
+                    PortInterfaceMethod method = new PortInterfaceMethod(methodElement,
+                            methodElement.getSimpleName().toString(), data);
                     return method;
                 }).collect(Collectors.toList());
-        PortTransformerData portTransformerData = new PortTransformerData(transformerElement, portInterfaceMethodList);
+        PortTransformerData portTransformerData =
+                new PortTransformerData(transformerElement, portInterfaceMethodList);
 
         portInterfaceMethodList.forEach(portInterfaceMethod -> {
             try {
-                new PortInterfaceWriter(portInterfaceMethod.portInterfaceData).write(compileContext.processingEnvironment);
+                new PortInterfaceWriter(portInterfaceMethod.portInterfaceData)
+                        .write(compileContext);
             } catch (IOException e) {
                 compileContext.log.error("PortInterfaceWriter error", e.getMessage());
             }

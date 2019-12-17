@@ -29,7 +29,7 @@ public class PortTransformerWriter extends PortClassWriter {
     protected TypeSpec.Builder createTypeSpecBuilder() {
         TypeSpec.Builder builder = TypeSpec.classBuilder(portTransformerData.implTypeName);
         builder.addModifiers(Modifier.PUBLIC)
-                .addAnnotation(ClassName.get("android.support.annotation", "Keep"))
+                .addAnnotation(ClassName.bestGuess(compilerContext.keepClass))
                 .superclass(portTransformerData.typeName);
         addInterfaceMethod(builder);
         return builder;
