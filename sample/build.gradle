@@ -30,3 +30,10 @@ dependencies {
     implementation project(':port-transformer')
     kapt project(':port-transformer-compiler')
 }
+
+//如果使用androidx库时，则要打开自定义@Keep路径
+/*kapt {
+    arguments {
+        arg("keepClass", "androidx.annotation.Keep")
+    }
+}*/
